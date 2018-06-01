@@ -1,0 +1,6 @@
+.hello{
+    color:green;
+    background: url('../img/ok.png');
+    background-color: red;
+    display: flex;
+}
