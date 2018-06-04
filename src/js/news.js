@@ -9,7 +9,7 @@ function component() {
     element.innerHTML = _.join(['Hello','new'],' ');
     element.appendChild(br);
     element.appendChild(button);
-    element.classList.add('hi');
+    element.classList.add('hello');
     return element;
 }
 
