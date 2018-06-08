@@ -1,6 +1,4 @@
 import './style.css';
-import Icon from '../img/ok.png';
-import printMe from './print.js';
 import { cube } from "./math.js";
 import _ from 'loadsh';
 function component() {
@@ -8,7 +6,7 @@ function component() {
     var button = document.createElement('button');
     var br = document.createElement('br');
     button.innerHTML = 'Click me and look at the console';
-    element.innerHTML = _.join(['Hello','Webpack'],' ');
+    element.innerHTML = _.join(['Hello','Webpack',cube(10)],' ');
     element.appendChild(br);
     element.appendChild(button);
     element.classList.add('hello');
