@@ -11,6 +11,7 @@ config.HTMLDirs.forEach((page, index) => {
     filename: `${page}.html`,
     //根据自己的指定的模板文件来生成特定的 html 文件
     template: path.resolve(__dirname, `../src/html/${page}.html`),
+    // inject: true,
     //生成html的title
     title: 'hello' + page,
     //生成的favicon.ico
@@ -18,9 +19,11 @@ config.HTMLDirs.forEach((page, index) => {
     hash: true,
     //chunks 选项的作用主要是针对多入口(entry)文件。当你有多个入口文件的时候，对应就会生成多个编译后的 js 文件。那么 chunks 选项就可以决定是否都使用这些生成的 js 文件。
     //chunks 默认会在生成的 html 文件中引用所有的 js 文件，当然你也可以指定引入哪些特定的文件。
-    chunks: [page, 'vendors','styles'],
-    minify:{
-      removeAttributeQuotes:true//压缩 去掉引号
+    chunks: [page, 'vendors', 'styles'],
+    minify: {
+      removeAttributeQuotes: true, //压缩 去掉引号
+      collapseWhitespace: true,
+      removeAttributeQuotes: true
     }
   });
   HTMLPlugins.push(htmlPlugin);
@@ -28,14 +31,14 @@ config.HTMLDirs.forEach((page, index) => {
 })
 
 module.exports = {
-  entry:Entries,
+  entry: Entries,
   optimization: {
     splitChunks: {
       chunks: "all",
       cacheGroups: {
         // 凡是引用node_modules里的将会打包成为vendors
         vendors: {
-          name:'vendors',
+          name: 'vendors',
           test: /[\\/]node_modules[\\/]/,
           priority: -10
         },
@@ -43,7 +46,7 @@ module.exports = {
         //   name: 'styles',
         //   test: /\.css$/,
         //   chunks: 'all',
-        //   minChunks: 1,
+        //   minChunks: 2,
         //   reuseExistingChunk: true,
         //   enforce: true
         // }
@@ -52,6 +55,12 @@ module.exports = {
   },
   module: {
     rules: [{
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-loader'
+        }
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -75,10 +84,11 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         exclude: /node_modules/,
         use: {
-        loader:"file-loader",
-        options: {
-          outputPath: config.imgOutputPath
-        }}
+          loader: "file-loader",
+          options: {
+            outputPath: config.imgOutputPath
+          }
+        }
       }
     ]
   },

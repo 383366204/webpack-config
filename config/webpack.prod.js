@@ -18,7 +18,11 @@ module.exports = merge(common, {
         parallel: true,
         sourceMap: true
       }),
-      new OptimizeCSSAssetsPlugin({})
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          safe: true
+        }
+      })
     ]
   },
   module: {
@@ -32,7 +36,11 @@ module.exports = merge(common, {
           publicPath: '../'
         }
       }, {
-        loader: 'css-loader'
+        loader: 'css-loader',
+        options:{
+          modules:true,
+          localIdentName: '[path][name]__[local]--[hash:base64:5]'
+        }
       }, {
         loader: 'postcss-loader'
       }]
@@ -44,10 +52,10 @@ module.exports = merge(common, {
     }),
     new MiniCssExtractPlugin({
       filename: config.cssOutputPath + '[name].[chunkhash].css',
-      chunkFilename: "[id].css"
+      // chunkFilename: config.cssOutputPath + "common.css"
     }),
-    new PurifyCssPlugin({
-      paths: glob.sync(path.join(__dirname, '../src/html/*.html')),
-    })
+    // new PurifyCssPlugin({
+    //   paths: glob.sync(path.join(__dirname, '../src/html/*.html')),
+    // })
   ]
 });
